@@ -3,10 +3,7 @@ from numpy.core.fromnumeric import shape
 import pandas as pd
 
 
-# file=open("uav1.txt")
-# lines=file.readlines()
-# row=len(lines)
-# print(row)
+
 
 # 读取数据
 uav1=np.mat(pd.read_csv("uav1.txt",sep="  ",header=None,names=["t","a","b","c"],dtype=np.float64))
@@ -16,5 +13,5 @@ measur_mat=np.mat(pd.read_csv("measurement.txt",sep="  ",header=None,dtype=np.fl
 
 
 # 初始化状态变量
-status=np.array([[0,0,0,47.8109,18.1173,47.8109,0,0,0]]).T
-print(status)
+status0=np.array([[0,0,0,47.8109,18.1173,47.8109,0,0,0]]).T
+
