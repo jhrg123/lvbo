@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.core.fromnumeric import shape
 import pandas as pd
 
 
@@ -7,6 +8,10 @@ import pandas as pd
 # row=len(lines)
 # print(row)
 
-df= pd.read_csv("uav1.txt",sep="  ",header=None,names=["t","a","b","c"],dtype=np.float64)
-df_array=np.array(df)
-print(np.dot(df_array.T,df_array)[1,:])
+
+uav1=np.mat(pd.read_csv("uav1.txt",sep="  ",header=None,names=["t","a","b","c"],dtype=np.float64))
+uav2=np.mat(pd.read_csv("uav2.txt",sep="  ",header=None,names=["t","a","b","c"],dtype=np.float64))
+targe_mat=np.mat(pd.read_csv("target.txt",sep="  ",header=None,dtype=np.float64))
+measur_mat=np.mat(pd.read_csv("measurement.txt",sep="  ",header=None,dtype=np.float64))
+
+
