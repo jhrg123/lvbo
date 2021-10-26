@@ -8,7 +8,7 @@ import pandas as pd
 # row=len(lines)
 # print(row)
 
-
+# 读取数据
 uav1=np.mat(pd.read_csv("uav1.txt",sep="  ",header=None,names=["t","a","b","c"],dtype=np.float64))
 uav2=np.mat(pd.read_csv("uav2.txt",sep="  ",header=None,names=["t","a","b","c"],dtype=np.float64))
 targe_mat=np.mat(pd.read_csv("target.txt",sep="  ",header=None,dtype=np.float64))
