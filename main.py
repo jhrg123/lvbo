@@ -1,4 +1,4 @@
-from math import asin, gamma
+from math import asin, gamma, pi
 import numpy as np
 import pandas as pd
 import sympy as mp
@@ -37,13 +37,20 @@ yita2=mp.atan2(-1*zrs2,xrs2)
 Q1=np.var(targe_mat[:,7])
 Q2=np.var(targe_mat[:,7])
 Q3=np.var(targe_mat[:,7])
-Q=[[Q1],[Q2],[Q3]]
+Q=np.diag([Q1,Q2,Q3])
 
+#计算测量方差：
+R1=(0.3/pi*180)**2
+R=np.diag([R1,R1,R1,R1])
 xk=status0
-
-
+pk=np.diag([100,100,100,10,10,10,1,1,1])
 for i in range(np.shape(uav1)[0]):
-    pass
+    #一步预测：
+    xkk=fai@xk
+    #一步预测协方差
+    pkk=fai@pk@fai.T+tao@Q@tao.T
+    #
+
 
 
 # f=x**2*y+y**2
