@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import sympy as sy
+import sympy as mp
 
 
 
@@ -19,3 +19,9 @@ B=np.r_[np.zeros([6,3]),np.eye(3)]
 fai=np.eye(9)+T*A+T**2/2*np.matmul(A,A)
 tao=np.matmul(T*np.eye(9)+T**2/2*np.r_[np.c_[np.zeros([6,3]),np.eye(6)],np.zeros([3,9])]+T**3/6*np.r_[np.c_[np.zeros([3,6]),np.eye(3)],np.zeros([6,9])],B)
 
+x=mp.Symbol('x')
+y=mp.Symbol('y')
+f=x**2*y+y**2
+f_x=mp.diff(f,x)
+print(f_x.evalf(subs={x:3}))
+print(f_x)
