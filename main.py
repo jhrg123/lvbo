@@ -1,7 +1,6 @@
 import numpy as np
-from numpy.core.fromnumeric import shape
 import pandas as pd
-
+import sympy as sy
 
 
 
@@ -18,6 +17,5 @@ status0=np.array([[0,0,0,47.8109,18.1173,47.8109,0,0,0]]).T
 A=np.c_[np.zeros([9,3]),np.r_[np.eye(6),np.zeros([3,6])]]
 B=np.r_[np.zeros([6,3]),np.eye(3)]
 fai=np.eye(9)+T*A+T**2/2*np.matmul(A,A)
-
-
+tao=np.matmul(T*np.eye(9)+T**2/2*np.r_[np.c_[np.zeros([6,3]),np.eye(6)],np.zeros([3,9])]+T**3/6*np.r_[np.c_[np.zeros([3,6]),np.eye(3)],np.zeros([6,9])],B)
 
