@@ -49,7 +49,8 @@ for i in range(np.shape(uav1)[0]):
     xkk=fai@xk
     #一步预测协方差
     pkk=fai@pk@fai.T+tao@Q@tao.T
-    #
+    #滤波增益
+    
 
 
 
