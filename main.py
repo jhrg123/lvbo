@@ -1,7 +1,9 @@
 from math import asin, gamma, pi
 import numpy as np
+from numpy.linalg import linalg
 import pandas as pd
 import sympy as mp
+from sympy.core.function import diff
 
 
 
@@ -10,6 +12,7 @@ uav1=np.mat(pd.read_csv("uav1.txt",sep="  ",header=None,names=["t","a","b","c"],
 uav2=np.mat(pd.read_csv("uav2.txt",sep="  ",header=None,names=["t","a","b","c"],dtype=np.float64))
 targe_mat=np.mat(pd.read_csv("target.txt",sep="  ",header=None,dtype=np.float64))
 measur_mat=np.mat(pd.read_csv("measurement.txt",sep="  ",header=None,dtype=np.float64))
+
 
 T=0.1
 
@@ -49,8 +52,37 @@ for i in range(np.shape(uav1)[0]):
     xkk=fai@xk
     #一步预测协方差
     pkk=fai@pk@fai.T+tao@Q@tao.T
-    #滤波增益
+    #量测方程雅可比矩阵求解
+    fxrs1=xkk[0]-uav1[i,1]
+    fxrs2=xkk[0]-uav2[i,1]
+    fyrs1=xkk[1]-uav1[i,2]
+    fyrs2=xkk[1]-uav2[i,2]
+    fzrs1=xkk[2]-uav1[i,3]
+    fzrs2=xkk[2]-uav2[i,3]
+    h11=mp.diff(gama1,xrs1).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h12=mp.diff(gama1,yrs1).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h13=mp.diff(gama1,zrs1).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h21=mp.diff(yita1,xrs1).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h22=mp.diff(yita1,yrs1).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h23=mp.diff(yita1,zrs1).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h31=mp.diff(gama2,xrs2).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h32=mp.diff(gama2,yrs2).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h33=mp.diff(gama2,zrs2).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h41=mp.diff(yita2,xrs2).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h42=mp.diff(yita2,yrs2).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    h43=mp.diff(yita2,zrs2).evalf(subs={xrs1:fxrs1[0],xrs2:fxrs2[0],yrs1:fyrs1[0],yrs2:fyrs2[0],zrs1:fzrs1[0],zrs2:fzrs2[0]})
+    H0=[[h11,h12,h13],[h21,h22,h23],[h31,h32,h33],[h41,h42,h43]]
+    H=np.c_[H0,np.zeros([4,6])]
+    a = (R+H@pkk@H.T).astype(np.float64)
+    #计算滤波增益矩阵
+    kk=pkk@H.T@np.linalg.pinv(a)
     
+
+
+
+    
+
+
 
 
 
